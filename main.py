@@ -6,12 +6,34 @@ window.title("Calculator")
 window.config(background="grey")
 
 x = ""  # Initialize x as an empty string
+operation = ""  # Initialize operation as an empty string
+result = 0  # Initialize result as 0
 
 
 def act(num):
-    global x
-    x = str(num)  # Convert the button name to a string
+    global x, operation, result
+    if operation:
+        text.config(text=operation + " " + x)  # Update the text of the Label widget with operator and x
+    else:
+        text.config(text=x)
+
+    if num == "=":
+        if operation == "+":
+            result += float(x)  # Perform addition
+        elif operation == "-":
+            result -= float(x)  # Perform subtraction
+        x = str(result)  # Update x with the result
+        operation = ""  # Reset the operation
+    elif str(num) in ("+", "-"):  # Fix: Convert num to a string for comparison
+        operation = str(num)  # Set the selected operation
+        result = float(x)  # Store the current value of x as the result
+        x = ""  # Clear x for the next number input
+    else:
+        x += str(num)  # Append the button name to the existing text
     text.config(text=x)  # Update the text of the Label widget
+
+
+    print(x)
 
 
 text = Label(window, text=x, fg="Red", font=("sans-serif", 18), width=34)

@@ -10,6 +10,12 @@ operator = ""  # Initialize operation as an empty string
 result = 0  # Initialize result as 0
 
 
+def clear():
+    global x
+    x = ""
+    text.config(text=x)
+
+
 def act(num):
     global x, operator, result
     if num == "=":
@@ -17,9 +23,13 @@ def act(num):
             result += float(x)  # Perform addition
         elif operator == "-":
             result -= float(x)  # Perform subtraction
+        elif operator == "x":
+            result *= float(x)  # Perform multiplication
+        elif operator == "/":
+            result /= float(x)  # Perform division
         x = str(result)  # Update x with the result
-        operator = ""  # Reset the operator
-    elif str(num) in ("+", "-"):
+        operator = ""
+    elif str(num) in ("+", "-", "x", "/"):
         result = float(x) if x else 0  # Use 0 as default value if x is empty
         x = ""  # Clear x for the next number input
         operator = str(num)  # Set the selected operator
@@ -29,7 +39,6 @@ def act(num):
         text.config(text=operator + " " + x)  # Update the text of the Label widget with operator and x
     else:
         text.config(text=x)
-    print(x)
 
 
 text = Label(window, text=x, fg="Red", font=("sans-serif", 18), width=34)
@@ -44,6 +53,8 @@ nine = Button(text="9", command=lambda: act(9), width=10, height=2, bg="black", 
 nine.place(x=220, y=65)
 sub = Button(text="-", command=lambda: act("-"), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
 sub.place(x=320, y=65)
+div = Button(text="/", command=lambda: act("/"), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
+div.place(x=420, y=65)
 
 # second_row_buttons
 
@@ -64,8 +75,8 @@ two = Button(text="2", command=lambda: act(2), width=10, height=2, bg="black", f
 two.place(x=120, y=180)
 three = Button(text="3", command=lambda: act(3), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
 three.place(x=220, y=180)
-equal = Button(text="=", command=lambda: act("="), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
-equal.place(x=320, y=180)
+mul = Button(text="x", command=lambda: act("x"), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
+mul.place(x=320, y=180)
 
 # fourth_row_buttons
 
@@ -73,7 +84,10 @@ zero = Button(text="0", command=lambda: act(0), width=10, height=2, bg="black", 
 zero.place(x=20, y=240)
 dot = Button(text=".", command=lambda: act("."), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
 dot.place(x=120, y=240)
-clear = Button(text="C", command=lambda: act("c"), width=10, height=2, bg="red", fg="white", font=("sans-serif", 10))
-clear.place(x=220, y=240)
+clear_button = Button(text="C", command=lambda: clear(), width=10, height=2, bg="red", fg="white",
+                      font=("sans-serif", 10))
+clear_button.place(x=220, y=240)
+equal = Button(text="=", command=lambda: act("="), width=10, height=2, bg="black", fg="white", font=("sans-serif", 10))
+equal.place(x=320, y=240)
 
 window.mainloop()
